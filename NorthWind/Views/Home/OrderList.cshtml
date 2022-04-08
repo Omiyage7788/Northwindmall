@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NorthWind.Models.Orders>
+
+@{
+    ViewBag.Title = "會員訂單列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>訂單列表</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.OrderID)*@
+            會員編號
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.OrderDate)*@
+            訂購日期
+        </th>
+        
+        <th>
+            @*@Html.DisplayNameFor(model => model.ShipName)*@
+            送達地
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ShipAddress)*@
+            送達地址
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ShipCity)*@
+            送達城市
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDate)
+    </td>
+    
+    <td>
+        @Html.DisplayFor(modelItem => item.ShipName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ShipAddress)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ShipCity)
+    </td>
+    
+    <td>
+        @*@Html.ActionLink("Edit", "Edit", new { id=item.OrderID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OrderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OrderID })*@
+        <a href="@Url.Action("OrderDetail")?OrderID=@item.OrderID" class="btn btn-primary">訂單明細</a>
+    </td>
+</tr>
+}
+
+</table>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<NorthWind.Models.Customers>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "客戶資料管理";
+}
+
+<h3 class="alert alert-warning text-center">您現在是管理員角色!!</h3>
+
+<h2>客戶資料列表</h2>
+
+<p>
+    @Html.ActionLink("新增客戶", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        
+        <th>管理</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+       
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id = item.CustomerID }) |
+        
+            @Html.ActionLink("詳細資料", "Details", new { id=item.CustomerID }) 
+           
+        </td>
+    </tr>
+}
+
+</table>
+
+<div class="text-center">
+    @Html.PagedListPager((IPagedList)Model, page=>Url.Action("Index",new { page}))
+</div>

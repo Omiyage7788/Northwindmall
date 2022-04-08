@@ -1,0 +1,125 @@
+﻿@model IEnumerable<NorthWind.Models.Products>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "XX商城";
+}
+
+<div class="bg-banner" style="margin-bottom:10px;color:black">
+    <h2>NorthWind<br /><strong>找尋您想要的商品</strong></h2>
+</div>
+
+
+<span style="font-size:5rem;position:fixed;right:10px;bottom:10px">
+    <span class="badge" id="itemAmout">0</span><a href="/Home/MyCart"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+</span>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div class="thumbnail" style="height:450px">
+                <div class="caption text-center">
+                    <input class="PID" type="hidden" value="@item.ProductID" />
+                    <img src="~/Photos/47504268.jpg" style="width:200px" class="PImg" />
+
+                    <h3 class="PName" style="height:55px">@item.ProductName</h3>
+
+                    <p style="height: 36px">
+                        <span>@item.Categories.CategoryName</span>
+                        <span style="font-size: 0.5rem">@item.Categories.Description</span>
+                    </p>
+                    <h4>
+                        @item.QuantityPerUnit
+                    </h4>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label class="control-label">數量:</label>
+                            <select class="form-control amout">
+                                @for (int i = 1; i <= item.UnitsInStock; i++)
+                                {
+                                    <option>@i</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-xs-8">
+                            <h4 class="text-danger Price" title="@item.UnitPrice"><strong>@string.Format("{0:US$#0.00}", item.UnitPrice)</strong></h4>
+                        </div>
+                    </div>
+
+
+
+
+                    <button style="margin-top:10px" class="btn btn-primary btn-block btn-lg addCart"><span class="glyphicon glyphicon-shopping-cart"></span>加入購物車</button>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>
+<div class="text-center">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</div>
+@section scripts{
+    <script>
+
+        var cart = [];
+
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+            $('#itemAmout').text(cart.length);
+        }
+
+
+        $('.addCart').click(function () {
+            let product = $(this).closest('.thumbnail');
+
+
+            let newPID = parseInt(product.find('.PID').val());
+
+            if (cart.length > 0) {
+                for (let i = 0; i < cart.length; i++) {
+                    if (newPID == cart[i]["PID"]) {
+                        alert("此商品已在購物車中");
+                        break;
+                    }
+                    else if (i == cart.length - 1) {
+                        setCart(product)
+                        break;
+                    };
+
+
+                };
+
+            }
+            else {
+                setCart(product)
+
+            }
+
+        });
+
+
+        function setCart(product) {
+            let newItem = {
+                PID: parseInt(product.find('.PID').val()),
+                PName: product.find('.PName').text().trim(),
+                Pamout: parseInt(product.find('.amout').val()),
+                Price: parseFloat(product.find('.Price').attr('title')),
+                PImg: product.find('.PImg').attr('src')
+            };
+
+            cart.push(newItem);
+            $('#itemAmout').text(cart.length);
+            alert("商品已加入購物車");
+            localStorage.setItem("cart", JSON.stringify(cart)); 4
+        };
+    </script>
+}

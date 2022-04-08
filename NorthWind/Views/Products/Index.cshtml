@@ -1,0 +1,72 @@
+﻿@model IEnumerable<NorthWind.Models.Products>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "商品管理列表";
+    Layout = "~/Views/Shared/_Layout-Manager.cshtml";
+}
+
+<h3 class="alert alert-warning text-center">您現在是管理員角色!!</h3>
+
+<h2>商品列表</h2>
+
+<p>
+    @Html.ActionLink("新增商品", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsInStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsOnOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderLevel)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitsInStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReorderLevel)
+            </td>
+
+            <td>
+                @Html.ActionLink("修改", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("詳細資料", "Details", new { id = item.ProductID })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="text-center">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</div>

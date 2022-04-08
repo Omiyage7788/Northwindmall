@@ -1,0 +1,77 @@
+﻿@model IEnumerable<NorthWind.Models.Order_Details>
+
+@{
+    ViewBag.Title = "會員訂單明細";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>訂單明細</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.OrderID)*@
+            訂單編號
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Orders.CustomerID)*@
+            會員編號
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Products.ProductName)*@
+            產品名稱
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.UnitPrice)*@
+            價格
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Quantity)*@
+            數量
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Discount)*@
+            折扣
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Orders.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Products.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+
+
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+        </tr>
+    }
+
+</table>
+@*<a href="@Url.Action("OrderDetail")?OrderID=@item.OrderID" class="btn btn-primary">訂單明細</a>*@
+<div class="text-center">
+    <a class="btn btn-primary" href="/Home/OrderList/@Session["member"]">返回訂單</a>
+</div>
